@@ -33,7 +33,7 @@ allprojects {
         }
 
         google()
-        jcenter()
+        jcenter() // for track player
         maven { url 'https://www.jitpack.io' }
     }
 }
