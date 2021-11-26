@@ -1,14 +1,34 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Modal, StatusBar } from 'react-native';
+import { COLORS } from '../../constants/theme';
 
 const CurrentSongScreen = () => {
 
     return (
-        <View>
+        <Modal style={{
+            color: COLORS.black
+        }}
+            animationType="slide"
+        >
 
-            <Text>CurrentSongScreen</Text>
+            <StatusBar
+                barStyle={'light-content'}
+                translucent
+                backgroundColor={COLORS.gray}
+            />
 
-        </View>
+            <View style={{
+                flex: 1,
+                backgroundColor: COLORS.gray,
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}>
+
+                <Text>Current Song Screen</Text>
+
+            </View>
+
+        </Modal>
     );
 
 }
