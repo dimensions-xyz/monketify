@@ -1,11 +1,48 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { IconChevronBack, IconPlay, IconPause, IconChevronForward } from '../assets/svg';
+import TrackPlayer, { useProgress, State } from 'react-native-track-player';
 
 const Player = () => {
 
     const iconSize = 36
+
+    const { position, buffered, duration } = useProgress();
+
+    const isplaying = false
+
+    let minutes = Math.floor(position / 60);
+    let seconds = Math.round(position % 60);
+
+    let minutesZero = minutes < 10 ? 0 : ""
+    let secondsZero = seconds < 10 ? 0 : ""
+
+    let convertedPosition = minutesZero + minutes + ":" + secondsZero + seconds
+
+    // Müziğin durumuna göre play butonu render edilir (child component)
+    const isPlayingRender = () => {
+
+        return (
+            isplaying ?
+                <TouchableOpacity onPress={() => TrackPlayer.pause()}>
+                    <IconPause
+                        width={iconSize}
+                        height={iconSize}
+                        fill={COLORS.white}
+                    />
+                </TouchableOpacity> :
+
+                <TouchableOpacity onPress={() => TrackPlayer.play()}>
+                    <IconPlay
+                        width={iconSize}
+                        height={iconSize}
+                        fill={COLORS.white}
+                    />
+                </TouchableOpacity>
+        );
+
+    }
 
     return (
         <View style={{
@@ -35,7 +72,7 @@ const Player = () => {
                     ...FONTS.title2,
                 }}
                     numberOfLines={1}
-                >To Build A Home</Text>
+                >title</Text>
 
                 <Text style={{
                     color: COLORS.white,
@@ -43,7 +80,7 @@ const Player = () => {
                     ...FONTS.desc,
                 }}
                     numberOfLines={1}
-                >The Cinematic Orchestra</Text>
+                >artist</Text>
 
             </View>
 
@@ -56,7 +93,7 @@ const Player = () => {
                     flexDirection: 'row',
                 }}>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => TrackPlayer.skipToPrevious()}>
                         <IconChevronBack
                             width={iconSize}
                             height={iconSize}
@@ -64,15 +101,9 @@ const Player = () => {
                         />
                     </TouchableOpacity>
 
-                    <TouchableOpacity>
-                        <IconPause
-                            width={iconSize}
-                            height={iconSize}
-                            fill={COLORS.white}
-                        />
-                    </TouchableOpacity>
+                    {isPlayingRender()}
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => TrackPlayer.skipToNext()}>
                         <IconChevronForward
                             width={iconSize}
                             height={iconSize}
@@ -86,7 +117,7 @@ const Player = () => {
                     marginTop: 2,
                     ...FONTS.title2,
                     color: COLORS.white
-                }}>04:20</Text>
+                }}>{convertedPosition}</Text>
 
             </View>
 
