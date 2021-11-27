@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
-import { IconChevronBack, IconPlay, IconPause, IconChevronForward } from '../assets/svg';
+import { IconChevronBack, IconChevronForward } from '../assets/svg';
 import TrackPlayer, { useProgress, State } from 'react-native-track-player';
+import PlayButton from './PlayButton';
 
 const Player = () => {
 
@@ -11,41 +12,15 @@ const Player = () => {
     // şarkının anlık süresi ve sabit süresi
     const { position, duration } = useProgress();
 
-    const isplaying = false
-
     // şarkının anlık float değerini dakika ve saniye olarak formatlar
     let minutes = Math.floor(position / 60);
     let seconds = Math.round(position % 60);
 
-    // saniye eğer 0dan küçükse yanına 0 ekler
+    // saniye eğer 10dan küçükse yanına 0 ekler
     let secondsZero = seconds < 10 ? 0 : ""
 
     // dakika ve saniye anlık olarak gösterilir
     let convertedPosition = minutes + ":" + secondsZero + seconds
-
-    // Müziğin durumuna göre play butonu render edilir (child component)
-    const isPlayingRender = () => {
-
-        return (
-            isplaying ?
-                <TouchableOpacity onPress={() => TrackPlayer.pause()}>
-                    <IconPause
-                        width={iconSize}
-                        height={iconSize}
-                        fill={COLORS.white}
-                    />
-                </TouchableOpacity> :
-
-                <TouchableOpacity onPress={() => TrackPlayer.play()}>
-                    <IconPlay
-                        width={iconSize}
-                        height={iconSize}
-                        fill={COLORS.white}
-                    />
-                </TouchableOpacity>
-        );
-
-    }
 
     return (
         <View style={{
@@ -104,7 +79,7 @@ const Player = () => {
                         />
                     </TouchableOpacity>
 
-                    {isPlayingRender()}
+                    <PlayButton iconSize={iconSize} />
 
                     <TouchableOpacity onPress={() => TrackPlayer.skipToNext()}>
                         <IconChevronForward

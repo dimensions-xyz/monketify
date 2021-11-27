@@ -1,9 +1,12 @@
 import React from 'react';
 import { View, Text, StatusBar, Image, ImageBackground } from 'react-native';
 import { COLORS, FONTS } from '../../constants/theme';
-import { Player } from '../components';
+import { Header, Player } from '../components';
 import TrackPlayer, { useProgress } from "react-native-track-player";
 import Slider from '@react-native-community/slider';
+import PlayButton from '../components/PlayButton';
+import { IconSkipBack, IconSkipForward } from '../assets/svg';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const CurrentSongScreen = () => {
 
@@ -14,7 +17,7 @@ const CurrentSongScreen = () => {
     let minutes = Math.floor(position / 60);
     let seconds = Math.round(position % 60);
 
-    // saniye eğer 0dan küçükse yanına 0 ekler
+    // saniye eğer 10dan küçükse yanına 0 ekler
     let secondsZero = seconds < 10 ? 0 : ""
 
     // dakika ve saniye anlık olarak gösterilir
@@ -25,7 +28,7 @@ const CurrentSongScreen = () => {
     let secondsDuration = Math.round(duration % 60);
 
     // süredeki saniye eğer 0dan küçükse yanına 0 ekler
-    let secondsDurationZero = secondsDuration < 10  ? 0 : ""
+    let secondsDurationZero = secondsDuration < 10 ? 0 : ""
 
     // şarkının süresi dakika ve saniye olarak gösterilir
     let convertedDuration = minuteDuration + ":" + secondsDurationZero + secondsDuration
@@ -54,12 +57,14 @@ const CurrentSongScreen = () => {
             >
 
                 <View style={{
-                    width: '75%'
+                    width: '75%',
+                    marginTop: 40,
+                    alignItems: 'center',
                 }}>
 
                     <Image style={{
                         width: '100%',
-                        height: 300,
+                        height: 280,
                         borderRadius: 20,
                         backgroundColor: 'purple',
                     }}
@@ -67,7 +72,8 @@ const CurrentSongScreen = () => {
                     />
 
                     <View style={{
-                        marginVertical: 10,
+                        width: '100%',
+                        marginVertical: 15,
                         alignItems: 'center'
                     }}>
 
@@ -76,28 +82,32 @@ const CurrentSongScreen = () => {
                             color: COLORS.white
                         }}
                             numberOfLines={1}
-                        >Circles</Text>
+                        >Title</Text>
 
                         <Text style={{
                             ...FONTS.desc,
                             color: COLORS.white
                         }}
                             numberOfLines={1}
-                        >Eden</Text>
+                        >Artist</Text>
 
                     </View>
 
-                    <Slider
+                    <Slider style={{
+                        width: '100%'
+                    }}
                         onValueChange={value => TrackPlayer.seekTo(value)}
                         value={position}
                         minimumValue={0}
                         maximumValue={duration}
+                        step={1}
                         minimumTrackTintColor={COLORS.white}
                         thumbTintColor={COLORS.white}
                         maximumTrackTintColor={COLORS.white}
                     />
 
                     <View style={{
+                        width: '90%',
                         marginHorizontal: 15,
                         flexDirection: 'row',
                         justifyContent: 'space-between'
@@ -112,6 +122,34 @@ const CurrentSongScreen = () => {
                             fontSize: 14,
                             color: COLORS.white
                         }}>{convertedDuration}</Text>
+
+                    </View>
+
+                    <View style={{
+                        width: '100%',
+                        marginTop: 30,
+                        flexDirection: 'row',
+                        justifyContent: 'space-around',
+                        alignItems: 'center'
+                    }}>
+
+                        <TouchableOpacity onPress={() => TrackPlayer.skipToPrevious()}>
+                            <IconSkipBack
+                                width={32}
+                                height={32}
+                                fill={COLORS.white}
+                            />
+                        </TouchableOpacity>
+
+                        <PlayButton iconSize={43} />
+
+                        <TouchableOpacity onPress={() => TrackPlayer.skipToNext()}>
+                            <IconSkipForward
+                                width={32}
+                                height={32}
+                                fill={COLORS.white}
+                            />
+                        </TouchableOpacity>
 
                     </View>
 
