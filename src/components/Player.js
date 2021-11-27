@@ -8,17 +8,20 @@ const Player = () => {
 
     const iconSize = 36
 
-    const { position, buffered, duration } = useProgress();
+    // şarkının anlık süresi ve sabit süresi
+    const { position, duration } = useProgress();
 
     const isplaying = false
 
+    // şarkının anlık float değerini dakika ve saniye olarak formatlar
     let minutes = Math.floor(position / 60);
     let seconds = Math.round(position % 60);
 
-    let minutesZero = minutes < 10 ? 0 : ""
+    // saniye eğer 0dan küçükse yanına 0 ekler
     let secondsZero = seconds < 10 ? 0 : ""
 
-    let convertedPosition = minutesZero + minutes + ":" + secondsZero + seconds
+    // dakika ve saniye anlık olarak gösterilir
+    let convertedPosition = minutes + ":" + secondsZero + seconds
 
     // Müziğin durumuna göre play butonu render edilir (child component)
     const isPlayingRender = () => {
