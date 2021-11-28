@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { View, Text, StatusBar, FlatList, Image, TouchableOpacity } from 'react-native';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { Header, Player } from '../components'
 import { IconPauseChild, IconPlayChild } from '../assets/svg';
 import songs from '../data/songs';
 import TrackPlayer from 'react-native-track-player';
+import SongStateStore from '../store/SongStateStore';
+import { observer } from 'mobx-react';
 
-const MainScreen = ({ navigation }) => {
+@observer
+export default class MainScreen extends Component {
 
-    // Şarkılar playere eklenir
-    const setUpTrackPlayer = async () => {
+    async componentDidMount() {
         try {
             await TrackPlayer.setupPlayer();
             await TrackPlayer.add(songs);
@@ -18,118 +20,114 @@ const MainScreen = ({ navigation }) => {
         }
     }
 
-    useEffect(() => {
-        setUpTrackPlayer();
-        //return () => TrackPlayer.destroy();
-    }, [])
+    render() {
 
-    const renderItem = ({ item }) => {
+        renderItem = ({ item }) => {
+
+            return (
+                <TouchableOpacity style={{
+                    marginVertical: 10,
+                    marginHorizontal: 20,
+                    borderRadius: 8,
+                    backgroundColor: COLORS.darkGray,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                }}
+                    onPress={async () => {
+                        await TrackPlayer.play()
+                        navigation.navigate("CurrentSongScreen")
+                    }}
+                    activeOpacity={.8}
+                >
+
+                    <Image style={{
+                        height: 42,
+                        width: 42,
+                        marginStart: 12,
+                        borderRadius: 50,
+                    }}
+                        source={item.artwork}
+                    />
+
+                    <View style={{
+                        width: SIZES.width * 0.5,
+                        marginStart: 20,
+                        paddingVertical: 14,
+                    }}>
+
+                        <Text style={{
+                            color: COLORS.white,
+                            ...FONTS.title2,
+                        }}
+                            numberOfLines={1}
+                        >{item.title}</Text>
+
+                        <Text style={{
+                            color: COLORS.gray,
+                            ...FONTS.desc,
+                        }}
+                            numberOfLines={1}
+                        >{item.artist}</Text>
+
+                    </View>
+
+                    <TouchableOpacity style={{
+                        flex: 1,
+                        justifyContent: 'center',
+                    }}
+                        onPress={() => {
+
+                            TrackPlayer.play();
+
+                        }}
+                        activeOpacity={.5}
+                    >
+
+                        <IconPlayChild style={{
+                            alignSelf: 'center'
+                        }}
+                            width={24}
+                            height={24}
+                            fill={COLORS.white}
+                        />
+
+                    </TouchableOpacity>
+
+                </TouchableOpacity>
+            );
+
+        }
 
         return (
-            <TouchableOpacity style={{
-                marginVertical: 10,
-                marginHorizontal: 20,
-                borderRadius: 8,
-                backgroundColor: COLORS.darkGray,
-                flexDirection: 'row',
-                alignItems: 'center',
-            }}
-                onPress={async () => {
-                    await TrackPlayer.play();
-                    navigation.navigate("CurrentSongScreen")
-                }}
-                activeOpacity={.8}
-            >
+            <View style={{
+                flex: 1,
+                backgroundColor: COLORS.black
+            }}>
 
-                <Image style={{
-                    height: 42,
-                    width: 42,
-                    marginStart: 12,
-                    borderRadius: 50,
-                }}
-                    source={item.artwork}
+                <StatusBar
+                    barStyle={'light-content'}
+                    translucent
+                    backgroundColor={'transparent'}
                 />
 
+                <Header title="Sounds" />
+
                 <View style={{
-                    width: SIZES.width * 0.5,
-                    marginStart: 20,
-                    paddingVertical: 14,
+                    flex: 1,
                 }}>
 
-                    <Text style={{
-                        color: COLORS.white,
-                        ...FONTS.title2,
-                    }}
-                        numberOfLines={1}
-                    >{item.title}</Text>
-
-                    <Text style={{
-                        color: COLORS.gray,
-                        ...FONTS.desc,
-                    }}
-                        numberOfLines={1}
-                    >{item.artist}</Text>
+                    <FlatList style={{ marginTop: 24 }}
+                        data={songs}
+                        renderItem={renderItem}
+                        keyExtractor={(item, index) => index}
+                    />
 
                 </View>
 
-                <TouchableOpacity style={{
-                    flex: 1,
-                    justifyContent: 'center',
-                }}
-                    onPress={() => {
-                        TrackPlayer.play()
-                    }}
-                    activeOpacity={.5}
-                >
-
-                    <IconPlayChild style={{
-                        alignSelf: 'center'
-                    }}
-                        width={24}
-                        height={24}
-                        fill={COLORS.white}
-                    />
-
-                </TouchableOpacity>
-
-            </TouchableOpacity>
-        );
-
-    }
-
-    return (
-        <View style={{
-            flex: 1,
-            backgroundColor: COLORS.black
-        }}>
-
-            <StatusBar
-                barStyle={'light-content'}
-                translucent
-                backgroundColor={'transparent'}
-            />
-
-            <Header title="Sounds" />
-
-            <View style={{
-                flex: 1,
-            }}>
-
-                <FlatList style={{ marginTop: 24 }}
-                    data={songs}
-                    renderItem={renderItem}
-                    keyExtractor={(item, index) => index}
-                />
+                <Player />
 
             </View>
-
-            <Player />
-
-        </View>
-    );
+        );
+    }
 
 }
-
-
-
-export default MainScreen;

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { IconChevronBack, IconChevronForward } from '../assets/svg';
-import TrackPlayer, { useProgress, State } from 'react-native-track-player';
+import TrackPlayer, { useProgress } from 'react-native-track-player';
 import PlayButton from './PlayButton';
 
 const Player = () => {

@@ -2,7 +2,8 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { CurrentSongScreen, MainScreen } from '../screens'
+import { CurrentSongScreen, MainScreen } from '../screens';
+import TestScreen from '../screens/TestScreen';
 
 const Stack = createStackNavigator();
 

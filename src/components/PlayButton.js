@@ -1,33 +1,40 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, { State } from 'react-native-track-player';
 import { IconPlay, IconPause } from '../assets/svg';
 import { COLORS } from '../../constants/theme';
+import SongStateStore from '../store/SongStateStore';
+import { inject } from 'mobx-react';
+import { Text } from 'react-native';
+// Müziğin durumuna göre play butonu aktif olarak render edilir
+@inject('songStateStore')
+export default class PlayButton extends Component {
 
-// Müziğin durumuna göre play butonu render edilir
-const PlayButton = ({ iconSize, style }) => {
+    render() {
 
-    const isplaying = false
+        return (
+            this.props.songStateStore.isPlaying ?
+                <TouchableOpacity style={this.props.style} onPress={() => TrackPlayer.pause()}>
 
-    return (
-        isplaying ?
-            <TouchableOpacity style={style} onPress={() => TrackPlayer.pause()}>
-                <IconPause
-                    width={iconSize}
-                    height={iconSize}
-                    fill={COLORS.white}
-                />
-            </TouchableOpacity> :
+                    <IconPause
+                        width={this.props.iconSize}
+                        height={this.props.iconSize}
+                        fill={COLORS.white}
+                    />
 
-            <TouchableOpacity style={style} onPress={() => TrackPlayer.play()}>
-                <IconPlay
-                    width={iconSize}
-                    height={iconSize}
-                    fill={COLORS.white}
-                />
-            </TouchableOpacity>
-    );
+                </TouchableOpacity> :
+
+                <TouchableOpacity style={this.props.style} onPress={() => TrackPlayer.play()}>
+
+                    <IconPlay
+                        width={this.props.iconSize}
+                        height={this.props.iconSize}
+                        fill={COLORS.white}
+                    />
+
+                </TouchableOpacity>
+        );
+
+    }
 
 }
-
-export default PlayButton;

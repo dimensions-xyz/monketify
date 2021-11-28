@@ -1,7 +1,7 @@
-import TrackPlayer from "react-native-track-player";
-import CurrentSoundStore from "../store/CurrentSoundStore";
+import TrackPlayer, { State } from "react-native-track-player";
+import SongStateStore from "../store/SongStateStore";
 
-export default async function(){
+async function trackPlayerServices() {
 
     TrackPlayer.addEventListener('remote-play', () => {
         TrackPlayer.play()
@@ -23,9 +23,24 @@ export default async function(){
         let getCurrentTrackIndex = await TrackPlayer.getCurrentTrack();
         let getTrack = await TrackPlayer.getTrack(getCurrentTrackIndex);
 
-        // MOBXte tutulacak
-        console.log("Track changed to " + getTrack);
+        const currentTrack = {
+            id: getTrack.id,
+            title: getTrack.title,
+            artist: getTrack.artist,
+            artwork: getTrack.artwork,
+        }
+
+        SongStateStore.updateTrackState(currentTrack)
+
+    });
+
+    TrackPlayer.addEventListener('playback-state', (state) => {
+
+        const isPlaying = (state.state === 3 ? true : false)
+        SongStateStore.updateIsPlaying(isPlaying);
 
     });
 
 };
+
+export default trackPlayerServices;
