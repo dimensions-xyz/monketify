@@ -13,7 +13,7 @@ export default class PlayChildButton extends Component {
 
         return (
             this.props.currentTrackId === this.props.songStateStore.currentTrack.id && this.props.songStateStore.isPlaying ?
-                <TouchableOpacity style={this.props.style} onPress={() => TrackPlayer.pause()}>
+                <TouchableOpacity activeOpacity={0.5} style={this.props.style} onPress={this.props.onPressPause}>
 
                     <IconPauseChild
                         width={this.props.iconSize}
@@ -23,7 +23,7 @@ export default class PlayChildButton extends Component {
 
                 </TouchableOpacity> :
 
-                <TouchableOpacity style={this.props.style} onPress={() => TrackPlayer.play()}>
+                <TouchableOpacity activeOpacity={0.5} style={this.props.style} onPress={this.props.onPressPlay}>
 
                     <IconPlayChild
                         width={this.props.iconSize}

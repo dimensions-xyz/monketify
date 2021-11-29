@@ -4,7 +4,7 @@ import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { Header, Player, PlayChildButton } from '../components'
 import { IconPauseChild, IconPlayChild } from '../assets/svg';
 import songs from '../data/songs';
-import TrackPlayer from 'react-native-track-player';
+import TrackPlayer, { RepeatMode } from 'react-native-track-player';
 import { inject, observer } from 'mobx-react';
 
 @inject('songStateStore')
@@ -14,6 +14,7 @@ export default class MainScreen extends Component {
         try {
             await TrackPlayer.setupPlayer();
             await TrackPlayer.add(songs);
+            TrackPlayer.setRepeatMode(RepeatMode.Queue);
         } catch (e) {
             console.log("setUpTrackPlayer", e);
         }
@@ -33,8 +34,9 @@ export default class MainScreen extends Component {
                     alignItems: 'center',
                 }}
                     onPress={async () => {
-                        await TrackPlayer.play()
-                        this.props.navigation.navigate("CurrentSongScreen")
+                        await TrackPlayer.skip(item.id - 1);
+                        await TrackPlayer.play();
+                        this.props.navigation.navigate("CurrentSongScreen");
                     }}
                     activeOpacity={.8}
                 >
@@ -70,27 +72,22 @@ export default class MainScreen extends Component {
 
                     </View>
 
-                    <TouchableOpacity style={{
-                        flex: 1,
-                        justifyContent: 'center',
-                    }}
-                        onPress={async () => {
-
-                            await TrackPlayer.play();
-
-                        }}
-                        activeOpacity={.5}
-                    >
-
                         <PlayChildButton style={{
+                            flex: 1,
                             width: 24,
                             height: 24,
+                            justifyContent: 'center',
                             alignSelf: 'center'
                         }}
+                            onPressPlay={async () => {
+                                await TrackPlayer.skip(item.id - 1);
+                                await TrackPlayer.play();
+                            }}
+                            onPressPause={async() => {
+                                await TrackPlayer.pause();
+                            }}
                             currentTrackId={item.id}
                         />
-
-                    </TouchableOpacity>
 
                 </TouchableOpacity>
             );
