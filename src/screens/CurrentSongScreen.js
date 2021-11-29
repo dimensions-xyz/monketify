@@ -5,9 +5,10 @@ import { Header, Player, SongSlider, SongPosition, SongDuration, PlayButton } fr
 import { IconSkipBack, IconSkipForward } from '../assets/svg';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import TrackPlayer from 'react-native-track-player';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 @inject('songStateStore')
+@observer
 export default class CurrentSongScreen extends Component {
 
     render() {
@@ -39,7 +40,6 @@ export default class CurrentSongScreen extends Component {
 
                     <View style={{
                         width: '75%',
-                        marginTop: 40,
                         alignItems: 'center',
                     }}>
 

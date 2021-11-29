@@ -4,9 +4,10 @@ import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { IconChevronBack, IconChevronForward } from '../assets/svg';
 import { PlayButton, SongPosition } from '.';
 import TrackPlayer from 'react-native-track-player';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 @inject('songStateStore')
+@observer
 export default class Player extends Component {
 
     render() {

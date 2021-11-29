@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { TouchableOpacity } from "react-native";
 import { COLORS } from "../../constants/theme";
 import { IconPlayChild, IconPauseChild } from "../assets/svg";
-import { inject } from "mobx-react";
+import { inject, observer } from "mobx-react";
 import TrackPlayer from "react-native-track-player";
 
 @inject('songStateStore')
+@observer
 export default class PlayChildButton extends Component {
 
     render() {

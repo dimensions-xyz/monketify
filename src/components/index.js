@@ -7,9 +7,9 @@ import PlayButton from './PlayButton';
 import PlayChildButton from './PlayChildButton';
 
 export {
-    Player,  // Injected MOBX Store
-    PlayButton,  // Injected MOBX Store
-    PlayChildButton,  // Injected MOBX Store
+    Player,             // Injected SongStateStore (Class Component)
+    PlayButton,         // Injected SongStateStore (Class Component)
+    PlayChildButton,    // Injected SongStateStore (Class Component)
     Header,
     SongPosition,
     SongSlider,

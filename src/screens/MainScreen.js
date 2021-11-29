@@ -5,7 +5,7 @@ import { Header, Player, PlayChildButton } from '../components'
 import { IconPauseChild, IconPlayChild } from '../assets/svg';
 import songs from '../data/songs';
 import TrackPlayer from 'react-native-track-player';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 @inject('songStateStore')
 export default class MainScreen extends Component {
@@ -74,9 +74,9 @@ export default class MainScreen extends Component {
                         flex: 1,
                         justifyContent: 'center',
                     }}
-                        onPress={() => {
+                        onPress={async () => {
 
-                            TrackPlayer.play();
+                            await TrackPlayer.play();
 
                         }}
                         activeOpacity={.5}

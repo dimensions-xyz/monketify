@@ -4,17 +4,18 @@ import TrackPlayer, { State } from 'react-native-track-player';
 import { IconPlay, IconPause } from '../assets/svg';
 import { COLORS } from '../../constants/theme';
 import SongStateStore from '../store/SongStateStore';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 // Müziğin durumuna göre play butonu aktif olarak render edilir
 @inject('songStateStore')
+@observer
 export default class PlayButton extends Component {
 
     render() {
 
         return (
             this.props.songStateStore.isPlaying ?
-                <TouchableOpacity style={this.props.style} onPress={() => TrackPlayer.pause()}>
+                <TouchableOpacity style={this.props.style} onPress={async () => await TrackPlayer.pause()}>
 
                     <IconPause
                         width={this.props.iconSize}
@@ -24,7 +25,7 @@ export default class PlayButton extends Component {
 
                 </TouchableOpacity> :
 
-                <TouchableOpacity style={this.props.style} onPress={() => TrackPlayer.play()}>
+                <TouchableOpacity style={this.props.style} onPress={async () => await TrackPlayer.play()}>
 
                     <IconPlay
                         width={this.props.iconSize}
