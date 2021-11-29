@@ -4,23 +4,11 @@ import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { IconChevronBack, IconChevronForward } from '../assets/svg';
 import TrackPlayer, { useProgress } from 'react-native-track-player';
 import PlayButton from './PlayButton';
+import { SongPosition } from '.';
 
 const Player = () => {
 
     const iconSize = 36
-
-    // şarkının anlık süresi ve sabit süresi
-    const { position, duration } = useProgress();
-
-    // şarkının anlık float değerini dakika ve saniye olarak formatlar
-    let minutes = Math.floor(position / 60);
-    let seconds = Math.round(position % 60);
-
-    // saniye eğer 10dan küçükse yanına 0 ekler
-    let secondsZero = seconds < 10 ? 0 : ""
-
-    // dakika ve saniye anlık olarak gösterilir
-    let convertedPosition = minutes + ":" + secondsZero + seconds
 
     return (
         <View style={{
@@ -91,11 +79,11 @@ const Player = () => {
 
                 </View>
 
-                <Text style={{
+                <SongPosition style={{
                     marginTop: 2,
-                    ...FONTS.title2,
-                    color: COLORS.white
-                }}>{convertedPosition}</Text>
+                    color: COLORS.white,
+                    ...FONTS.title2
+                }} />
 
             </View>
 

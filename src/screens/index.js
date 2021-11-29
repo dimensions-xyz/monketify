@@ -1,5 +1,5 @@
-import CurrentSongScreen from './CurrentSongScreen'
-import MainScreen from './MainScreen'
+import CurrentSongScreen from './CurrentSongScreen';
+import MainScreen from './MainScreen';
 
 export {
     CurrentSongScreen,

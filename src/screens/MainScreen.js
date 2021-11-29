@@ -8,7 +8,6 @@ import TrackPlayer from 'react-native-track-player';
 import SongStateStore from '../store/SongStateStore';
 import { observer } from 'mobx-react';
 
-@observer
 export default class MainScreen extends Component {
 
     async componentDidMount() {
@@ -35,7 +34,7 @@ export default class MainScreen extends Component {
                 }}
                     onPress={async () => {
                         await TrackPlayer.play()
-                        navigation.navigate("CurrentSongScreen")
+                        this.props.navigation.navigate("CurrentSongScreen")
                     }}
                     activeOpacity={.8}
                 >
