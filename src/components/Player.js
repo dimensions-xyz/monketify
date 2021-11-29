@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Image, TouchableOpacity, Animated } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { IconChevronBack, IconChevronForward } from '../assets/svg';
 import { PlayButton, SongPosition } from '.';
@@ -12,89 +12,105 @@ export default class Player extends Component {
 
     render() {
 
+        // Store dan alınan veriler
         const banner = this.props.songStateStore.currentTrack.artwork
         const title = this.props.songStateStore.currentTrack.title
         const artist = this.props.songStateStore.currentTrack.artist
+
         const iconSize = 36
 
         return (
-                <Animated.View style={{
-                    width: '100%',
-                    height: 90,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    backgroundColor: COLORS.paleGray,
+            <View style={{
+                width: '100%',
+                height: 90,
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: COLORS.paleGray,
+            }}>
+
+                {/* Song Banner */}
+                <Image style={{
+                    width: 42,
+                    height: 42,
+                    marginStart: 20,
+                    borderRadius: 50,
+                }}
+                    source={banner}
+                />
+
+                {/* Container - Title & Artist */}
+                <View style={{
+                    marginStart: 30,
+                    width: SIZES.width / 2.5,
                 }}>
 
-                    <Image style={{
-                        width: 42,
-                        height: 42,
-                        marginStart: 20,
-                        borderRadius: 50,
+                    {/* Song Title */}
+                    <Text style={{
+                        color: COLORS.white,
+                        ...FONTS.title2,
                     }}
-                        source={banner}
-                    />
+                        numberOfLines={1}
+                    >{title}</Text>
 
+                    {/* Song Artist */}
+                    <Text style={{
+                        color: COLORS.white,
+                        opacity: .5,
+                        ...FONTS.desc,
+                    }}
+                        numberOfLines={1}
+                    >{artist}</Text>
+
+                </View>
+
+                {/* Container - Button Container & Song Position */}
+                <View style={{
+                    flex: 1,
+                    alignItems: 'center',
+                }}>
+
+                    {/* Button Container */}
                     <View style={{
-                        marginStart: 30,
-                        width: SIZES.width / 2.5,
+                        flexDirection: 'row',
                     }}>
 
-                        <Text style={{
-                            color: COLORS.white,
-                            ...FONTS.title2,
-                        }}
-                            numberOfLines={1}
-                        >{title}</Text>
-
-                        <Text style={{
-                            color: COLORS.white,
-                            opacity: .5,
-                            ...FONTS.desc,
-                        }}
-                            numberOfLines={1}
-                        >{artist}</Text>
-
-                    </View>
-
-                    <View style={{
-                        flex: 1,
-                        alignItems: 'center',
-                    }}>
-
-                        <View style={{
-                            flexDirection: 'row',
+                        {/* Button: Skip To Previous */}
+                        <TouchableOpacity onPress={async () => {
+                            await TrackPlayer.skipToPrevious();
                         }}>
+                            <IconChevronBack
+                                width={iconSize}
+                                height={iconSize}
+                                fill={COLORS.white}
+                            />
+                        </TouchableOpacity>
 
-                            <TouchableOpacity onPress={() => TrackPlayer.skipToPrevious()}>
-                                <IconChevronBack
-                                    width={iconSize}
-                                    height={iconSize}
-                                    fill={COLORS.white}
-                                />
-                            </TouchableOpacity>
+                        {/* Button: Play / Pause */}
+                        <PlayButton iconSize={iconSize} />
 
-                            <PlayButton iconSize={iconSize} />
-
-                            <TouchableOpacity onPress={() => TrackPlayer.skipToNext()}>
-                                <IconChevronForward
-                                    width={iconSize}
-                                    height={iconSize}
-                                    fill={COLORS.white}
-                                />
-                            </TouchableOpacity>
-
-                        </View>
-
-                        <SongPosition style={{
-                            marginTop: 2,
-                            color: COLORS.white,
-                            ...FONTS.title2
-                        }} />
+                        {/* Button: Skip To Next */}
+                        <TouchableOpacity onPress={async () => {
+                            await TrackPlayer.skipToNext();
+                        }}>
+                            <IconChevronForward
+                                width={iconSize}
+                                height={iconSize}
+                                fill={COLORS.white}
+                            />
+                        </TouchableOpacity>
 
                     </View>
 
-                </Animated.View>
+                    {/* Song Position */}
+                    <SongPosition style={{
+                        marginTop: 2,
+                        color: COLORS.white,
+                        ...FONTS.title2
+                    }} />
+
+                </View>
+
+            </View>
         );
 
     }

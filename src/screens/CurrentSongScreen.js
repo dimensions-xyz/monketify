@@ -13,6 +13,7 @@ export default class CurrentSongScreen extends Component {
 
     render() {
 
+        // Store dan alınan veriler
         const banner = this.props.songStateStore.currentTrack.artwork
         const title = this.props.songStateStore.currentTrack.title
         const artist = this.props.songStateStore.currentTrack.artist
@@ -28,9 +29,9 @@ export default class CurrentSongScreen extends Component {
                     backgroundColor='transparent'
                 />
 
+                {/* Song Item - Main Container */}
                 <ImageBackground style={{
                     flex: 1,
-                    backgroundColor: COLORS.gray,
                     justifyContent: 'center',
                     alignItems: 'center'
                 }}
@@ -38,11 +39,13 @@ export default class CurrentSongScreen extends Component {
                     blurRadius={50}
                 >
 
+                    {/* Song Item - Container */}
                     <View style={{
                         width: '75%',
                         alignItems: 'center',
                     }}>
 
+                        {/* Banner */}
                         <Image style={{
                             width: '100%',
                             height: 280,
@@ -52,12 +55,14 @@ export default class CurrentSongScreen extends Component {
                             source={banner}
                         />
 
+                        {/* Container - Title & Artist */}
                         <View style={{
                             width: '100%',
                             marginVertical: 15,
                             alignItems: 'center'
                         }}>
 
+                            {/* Song Title */}
                             <Text style={{
                                 ...FONTS.title2,
                                 color: COLORS.white
@@ -65,6 +70,7 @@ export default class CurrentSongScreen extends Component {
                                 numberOfLines={1}
                             >{title}</Text>
 
+                            {/* Song Artist */}
                             <Text style={{
                                 ...FONTS.desc,
                                 color: COLORS.white
@@ -74,8 +80,10 @@ export default class CurrentSongScreen extends Component {
 
                         </View>
 
+                        {/* Slider */}
                         <SongSlider />
 
+                        {/* Container - Song position & Song duration */}
                         <View style={{
                             width: '90%',
                             marginHorizontal: 15,
@@ -95,6 +103,7 @@ export default class CurrentSongScreen extends Component {
 
                         </View>
 
+                        {/* Button Container */}
                         <View style={{
                             width: '100%',
                             marginTop: 30,
@@ -103,6 +112,7 @@ export default class CurrentSongScreen extends Component {
                             alignItems: 'center'
                         }}>
 
+                            {/* Button: Skip To Previous */}
                             <TouchableOpacity onPress={() => TrackPlayer.skipToPrevious()}>
                                 <IconSkipBack
                                     width={32}
@@ -111,8 +121,10 @@ export default class CurrentSongScreen extends Component {
                                 />
                             </TouchableOpacity>
 
+                            {/* Button: Play / Pause */}
                             <PlayButton iconSize={43} />
 
+                            {/* Button: Skip To Next */}
                             <TouchableOpacity onPress={() => TrackPlayer.skipToNext()}>
                                 <IconSkipForward
                                     width={32}

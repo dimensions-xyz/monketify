@@ -3,24 +3,18 @@ import SongStateStore from "../store/SongStateStore";
 
 async function trackPlayerServices() {
 
-    TrackPlayer.addEventListener('remote-play', () => {
-        TrackPlayer.play()
-        console.log("Track is playing now.");
-    });
+    TrackPlayer.addEventListener('remote-play', () => { });
 
-    TrackPlayer.addEventListener('remote-pause', () => {
-        TrackPlayer.pause()
-        console.log("Track is paused!");
-    });
+    TrackPlayer.addEventListener('remote-pause', () => { });
 
-    TrackPlayer.addEventListener('remote-stop', () => {
-        TrackPlayer.destroy()
-        console.log("Track is destroyed!");
-    });
+    TrackPlayer.addEventListener('remote-stop', () => { });
 
     TrackPlayer.addEventListener('playback-track-changed', async () => {
 
+        // Geçilen şarkının indexini alır
         let getCurrentTrackIndex = await TrackPlayer.getCurrentTrack();
+
+        // Geçilen şarkının indexinden track bilgilerini alır
         let getTrack = await TrackPlayer.getTrack(getCurrentTrackIndex);
 
         const currentTrack = {
@@ -30,13 +24,16 @@ async function trackPlayerServices() {
             artwork: getTrack.artwork,
         }
 
+        // Geçilen şarkıyı store'a aktarır
         SongStateStore.updateTrackState(currentTrack)
 
     });
 
     TrackPlayer.addEventListener('playback-state', (state) => {
 
-        const isPlaying = (state.state === 3 ? true : false)
+        const isPlaying = (state.state === 3 || state.state === 6 ? true : false);
+
+        // Şarkının oynatılıp oynatılmama durumunu store'a aktarır
         SongStateStore.updateIsPlaying(isPlaying);
 
     });

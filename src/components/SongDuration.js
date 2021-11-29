@@ -3,17 +3,18 @@ import { Text } from "react-native";
 import { useProgress } from "react-native-track-player";
 
 const SongDuration = ({ style }) => {
-    // şarkının anlık süresi ve sabit süresi
+
+    // Şarkının sabit süresi
     const { duration } = useProgress();
 
-    // şarkının süresini float değerini dakika ve saniye olarak formatlar
+    // Şarkının süresini float değerini dakika ve saniye olarak formatlar
     let minuteDuration = Math.floor(duration / 60)
     let secondsDuration = Math.round(duration % 60);
 
-    // süredeki saniye eğer 0dan küçükse yanına 0 ekler
+    // Süredeki saniye eğer 0dan küçükse yanına 0 ekler
     let secondsDurationZero = secondsDuration < 10 ? 0 : ""
 
-    // şarkının süresi dakika ve saniye olarak gösterilir
+    // Şarkının süresi dakika ve saniye olarak gösterilir
     let convertedDuration = minuteDuration + ":" + secondsDurationZero + secondsDuration
 
     return <Text style={style}>{convertedDuration}</Text>

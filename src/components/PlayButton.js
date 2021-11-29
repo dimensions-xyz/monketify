@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TouchableOpacity } from 'react-native';
-import TrackPlayer, { State } from 'react-native-track-player';
+import TrackPlayer from 'react-native-track-player';
 import { IconPlay, IconPause } from '../assets/svg';
 import { COLORS } from '../../constants/theme';
 import SongStateStore from '../store/SongStateStore';

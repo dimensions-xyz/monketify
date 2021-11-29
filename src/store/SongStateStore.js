@@ -44,4 +44,4 @@ class SongStateStore {
 
 }
 
-export default new SongStateStore()
+export default new SongStateStore();

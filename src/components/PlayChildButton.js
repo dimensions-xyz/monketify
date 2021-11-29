@@ -12,6 +12,7 @@ export default class PlayChildButton extends Component {
     render() {
 
         return (
+            // Proptan alınan track id aktif şarkının idsine eşitse ve şarkı çalışyorsa pause butonu render edilir
             this.props.currentTrackId === this.props.songStateStore.currentTrack.id && this.props.songStateStore.isPlaying ?
                 <TouchableOpacity activeOpacity={0.5} style={this.props.style} onPress={this.props.onPressPause}>
 

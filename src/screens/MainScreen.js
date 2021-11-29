@@ -1,16 +1,16 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component } from 'react';
 import { View, Text, StatusBar, FlatList, Image, TouchableOpacity } from 'react-native';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { Header, Player, PlayChildButton } from '../components'
-import { IconPauseChild, IconPlayChild } from '../assets/svg';
 import songs from '../data/songs';
 import TrackPlayer, { RepeatMode } from 'react-native-track-player';
-import { inject, observer } from 'mobx-react';
+import { inject } from 'mobx-react';
 
 @inject('songStateStore')
 export default class MainScreen extends Component {
 
     async componentDidMount() {
+        // TrackPlayer Setup
         try {
             await TrackPlayer.setupPlayer();
             await TrackPlayer.add(songs);
@@ -25,6 +25,7 @@ export default class MainScreen extends Component {
         renderItem = ({ item }) => {
 
             return (
+                // Button: Song Info Container
                 <TouchableOpacity style={{
                     marginVertical: 10,
                     marginHorizontal: 20,
@@ -41,6 +42,7 @@ export default class MainScreen extends Component {
                     activeOpacity={.8}
                 >
 
+                    {/* Song Banner */}
                     <Image style={{
                         height: 42,
                         width: 42,
@@ -50,12 +52,14 @@ export default class MainScreen extends Component {
                         source={item.artwork}
                     />
 
+                    {/* Container - Title & Artist */}
                     <View style={{
                         width: SIZES.width * 0.5,
                         marginStart: 20,
                         paddingVertical: 14,
                     }}>
 
+                        {/* Song Title */}
                         <Text style={{
                             color: COLORS.white,
                             ...FONTS.title2,
@@ -63,6 +67,7 @@ export default class MainScreen extends Component {
                             numberOfLines={1}
                         >{item.title}</Text>
 
+                        {/* Song Artist */}
                         <Text style={{
                             color: COLORS.gray,
                             ...FONTS.desc,
@@ -72,22 +77,24 @@ export default class MainScreen extends Component {
 
                     </View>
 
-                        <PlayChildButton style={{
-                            flex: 1,
-                            width: 24,
-                            height: 24,
-                            justifyContent: 'center',
-                            alignSelf: 'center'
+                    {/* Button: Play / Pause (Child) */}
+                    <PlayChildButton style={{
+                        flex: 1,
+                        width: 24,
+                        height: 24,
+                        justifyContent: 'center',
+                        alignSelf: 'center'
+                    }}
+                        onPressPlay={async () => {
+                            // Tıklanılan şarkıya geçer
+                            await TrackPlayer.skip(item.id - 1);
+                            await TrackPlayer.play();
                         }}
-                            onPressPlay={async () => {
-                                await TrackPlayer.skip(item.id - 1);
-                                await TrackPlayer.play();
-                            }}
-                            onPressPause={async() => {
-                                await TrackPlayer.pause();
-                            }}
-                            currentTrackId={item.id}
-                        />
+                        onPressPause={async () => {
+                            await TrackPlayer.pause();
+                        }}
+                        currentTrackId={item.id}
+                    />
 
                 </TouchableOpacity>
             );
