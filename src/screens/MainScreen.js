@@ -1,13 +1,13 @@
 import React, { Component, useEffect, useState } from 'react';
 import { View, Text, StatusBar, FlatList, Image, TouchableOpacity } from 'react-native';
 import { COLORS, FONTS, SIZES } from '../../constants/theme';
-import { Header, Player } from '../components'
+import { Header, Player, PlayChildButton } from '../components'
 import { IconPauseChild, IconPlayChild } from '../assets/svg';
 import songs from '../data/songs';
 import TrackPlayer from 'react-native-track-player';
-import SongStateStore from '../store/SongStateStore';
-import { observer } from 'mobx-react';
+import { inject } from 'mobx-react';
 
+@inject('songStateStore')
 export default class MainScreen extends Component {
 
     async componentDidMount() {
@@ -82,12 +82,12 @@ export default class MainScreen extends Component {
                         activeOpacity={.5}
                     >
 
-                        <IconPlayChild style={{
+                        <PlayChildButton style={{
+                            width: 24,
+                            height: 24,
                             alignSelf: 'center'
                         }}
-                            width={24}
-                            height={24}
-                            fill={COLORS.white}
+                            currentTrackId={item.id}
                         />
 
                     </TouchableOpacity>
