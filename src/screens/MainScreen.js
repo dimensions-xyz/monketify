@@ -4,9 +4,10 @@ import { COLORS, FONTS, SIZES } from '../../constants/theme';
 import { Header, Player, PlayChildButton } from '../components'
 import songs from '../data/songs';
 import TrackPlayer, { RepeatMode } from 'react-native-track-player';
-import { inject } from 'mobx-react';
+import { inject, observer } from 'mobx-react';
 
 @inject('songStateStore')
+@observer
 export default class MainScreen extends Component {
 
     async componentDidMount() {
@@ -35,9 +36,19 @@ export default class MainScreen extends Component {
                     alignItems: 'center',
                 }}
                     onPress={async () => {
-                        await TrackPlayer.skip(item.id - 1);
-                        await TrackPlayer.play();
-                        this.props.navigation.navigate("CurrentSongScreen");
+                        console.log(this.props.songStateStore.currentTrack.id);
+                        console.log(item.id);
+                        // Storeda ki anlık şarkı tıklanılan şarkıya eşitse şarkı baştan başlamadan devam eder ve diğer sayfaya geçer
+                        if (this.props.songStateStore.currentTrack.id === item.id) {
+                            this.props.songStateStore.isPlaying ? "" : await TrackPlayer.play();
+                            this.props.navigation.navigate("CurrentSongScreen");
+                        }
+                        // Eğer eşit değilse başka şarkıya tıklanmıştır ve o şarkıya skipleyip şarkıyı başlatır ve diğer sayfaya geçiş yapar
+                        else {
+                            await TrackPlayer.skip(item.id - 1);
+                            await TrackPlayer.play();
+                            this.props.navigation.navigate("CurrentSongScreen");
+                        }
                     }}
                     activeOpacity={.8}
                 >
